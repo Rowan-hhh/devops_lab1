@@ -53,6 +53,7 @@
 | `examples/README.md` | 样例来源、占位值和校验说明 |
 | `ADR-001-async-job.md` | 异步 Job 架构决策记录 |
 | `ADR-002-artifact-storage-and-access.md` | Artifact URI、共享路径和读取核验方案 |
+| `E2_COMPLETION.md` | A 组 E2 交付状态、验证结果和未决事项 |
 | `BACKLOG.md` | 任务 Backlog |
 | `AI_USAGE.md` | AI 使用记录 |
 
