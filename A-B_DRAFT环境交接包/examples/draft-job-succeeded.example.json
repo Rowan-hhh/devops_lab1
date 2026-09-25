@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0",
+  "job_id": "job-draft-example",
+  "trace_id": "trace-pair03-example",
+  "job_type": "DRAFT",
+  "status": "SUCCEEDED",
+  "execution": {
+    "created_at": "2026-09-22T12:00:00Z",
+    "started_at": "2026-09-22T12:00:03Z",
+    "finished_at": "2026-09-22T12:04:30Z"
+  },
+  "input": {
+    "repository": {
+      "url": "https://example.com/pair03/demo-project.git",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "project_root": "."
+    },
+    "build": {
+      "build_command": "make",
+      "test_command": "make test"
+    },
+    "limits": {
+      "max_iterations": 5,
+      "timeout_seconds": 600
+    }
+  },
+  "output": {
+    "dockerfile": {
+      "artifact_id": "dockerfile-example",
+      "type": "DOCKERFILE",
+      "uri": "artifact://pair03/job-draft-example/Dockerfile",
+      "media_type": "text/plain",
+      "producer_job_id": "job-draft-example",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "image": {
+      "artifact_id": "image-example",
+      "type": "CONTAINER_IMAGE",
+      "uri": "pair03/demo-project@sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "media_type": "application/vnd.oci.image.manifest.v1+json",
+      "producer_job_id": "job-draft-example",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "iteration_logs": [
+      {
+        "artifact_id": "draft-log-example",
+        "type": "BUILD_LOG",
+        "uri": "artifact://pair03/job-draft-example/iteration-1.log",
+        "media_type": "text/plain",
+        "producer_job_id": "job-draft-example",
+        "commit": "0123456789abcdef0123456789abcdef01234567",
+        "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    ],
+    "build_result": {
+      "success": true,
+      "exit_code": 0
+    },
+    "test_result": {
+      "success": true,
+      "exit_code": 0
+    }
+  },
+  "error": null
+}
+

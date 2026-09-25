@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "trace-pair03-example",
+  "job_type": "DRAFT",
+  "input": {
+    "repository": {
+      "url": "https://example.com/pair03/demo-project.git",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "project_root": "."
+    },
+    "build": {
+      "build_command": "make",
+      "test_command": "make test"
+    },
+    "limits": {
+      "max_iterations": 5,
+      "timeout_seconds": 600
+    }
+  }
+}
+

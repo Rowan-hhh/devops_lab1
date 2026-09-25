@@ -1,0 +1,30 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "trace-pair03-example",
+  "job_type": "FULL_CHECK",
+  "input": {
+    "repository": {
+      "url": "https://example.com/pair03/demo-project.git",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "project_root": "."
+    },
+    "environment": {
+      "dockerfile": {
+        "artifact_id": "dockerfile-example",
+        "type": "DOCKERFILE",
+        "uri": "artifact://pair03/job-draft-example/Dockerfile",
+        "media_type": "text/plain",
+        "producer_job_id": "job-draft-example",
+        "commit": "0123456789abcdef0123456789abcdef01234567",
+        "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "image_ref": "pair03/demo-project@sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "build": {
+      "configuration_id": "cc-MODE0",
+      "clean_command": "make clean",
+      "build_command": "make"
+    }
+  }
+}
+
