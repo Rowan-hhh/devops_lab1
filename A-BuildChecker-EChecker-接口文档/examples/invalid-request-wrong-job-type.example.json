@@ -1,0 +1,15 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "trace-pair03-invalid-001",
+  "job_type": "ABC",
+  "input": {
+    "repository": {
+      "url": "https://example.com/pair03/demo-project.git",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "project_root": "."
+    },
+    "build": {
+      "build_command": "make"
+    }
+  }
+}

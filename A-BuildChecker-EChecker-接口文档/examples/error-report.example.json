@@ -1,0 +1,50 @@
+{
+  "schema_version": "2.0",
+  "report_type": "ERROR_REPORT",
+  "producer_job_id": "job-full-001",
+  "repository": {
+    "url": "https://example.com/pair03/demo-project.git",
+    "commit": "0123456789abcdef0123456789abcdef01234567"
+  },
+  "configuration_id": "cc-MODE0",
+  "findings": [
+    {
+      "finding_id": "finding-md-001",
+      "type": "MISSING",
+      "target": "main.o",
+      "dependency": "config.h",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "location": {
+        "file": "Makefile",
+        "line": 12,
+        "column": 1
+      },
+      "evidence": {
+        "summary": "main.o uses config.h but the dependency is not declared",
+        "process": "cc -c main.c -o main.o",
+        "observed_file": "config.h",
+        "declaration_file": "Makefile"
+      },
+      "detector": "BUILD_CHECKER"
+    },
+    {
+      "finding_id": "finding-rd-001",
+      "type": "REDUNDANT",
+      "target": "main.o",
+      "dependency": "old_header.h",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "location": {
+        "file": "Makefile",
+        "line": 7,
+        "column": 1
+      },
+      "evidence": {
+        "summary": "main.o declares old_header.h as dependency but does not use it",
+        "process": "cc -c main.c -o main.o",
+        "observed_file": "main.c",
+        "declaration_file": "Makefile"
+      },
+      "detector": "BUILD_CHECKER"
+    }
+  ]
+}

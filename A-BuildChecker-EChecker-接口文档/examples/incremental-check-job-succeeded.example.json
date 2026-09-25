@@ -1,0 +1,81 @@
+{
+  "schema_version": "2.0",
+  "job_id": "job-incremental-c1",
+  "trace_id": "trace-pair03-001",
+  "job_type": "INCREMENTAL_CHECK",
+  "status": "SUCCEEDED",
+  "execution": {
+    "created_at": "2026-09-25T10:10:00Z",
+    "started_at": "2026-09-25T10:10:03Z",
+    "finished_at": "2026-09-25T10:12:45Z"
+  },
+  "input": {
+    "base_commit": "0123456789abcdef0123456789abcdef01234567",
+    "repository": {
+      "url": "https://example.com/pair03/demo-project.git",
+      "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "project_root": "."
+    },
+    "environment": {
+      "dockerfile": {
+        "artifact_id": "dockerfile-001",
+        "type": "DOCKERFILE",
+        "uri": "artifact://pair03/job-draft-001/Dockerfile",
+        "media_type": "text/plain",
+        "producer_job_id": "job-draft-001",
+        "commit": "0123456789abcdef0123456789abcdef01234567",
+        "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "image_ref": "pair03/demo-project@sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "build": {
+      "configuration_id": "cc-MODE0",
+      "clean_command": "make clean",
+      "build_command": "make"
+    },
+    "baseline": {
+      "actual_graph_uri": "artifact://pair03/job-full-001/actual.json",
+      "declared_graph_uri": "artifact://pair03/job-full-001/declared.json",
+      "commit": "0123456789abcdef0123456789abcdef01234567",
+      "configuration_id": "cc-MODE0"
+    }
+  },
+  "output": {
+    "current_error_report": {
+      "artifact_id": "error-report-c1",
+      "type": "ERROR_REPORT",
+      "uri": "artifact://pair03/job-incremental-c1/error-report.json",
+      "media_type": "application/json",
+      "producer_job_id": "job-incremental-c1",
+      "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "configuration_id": "cc-MODE0",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "finding_changes": {
+      "introduced": [],
+      "resolved": ["finding-md-001"],
+      "unchanged": []
+    },
+    "updated_actual_graph": {
+      "artifact_id": "actual-graph-c1",
+      "type": "ACTUAL_GRAPH",
+      "uri": "artifact://pair03/job-incremental-c1/actual.json",
+      "media_type": "application/json",
+      "producer_job_id": "job-incremental-c1",
+      "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "configuration_id": "cc-MODE0",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "updated_declared_graph": {
+      "artifact_id": "declared-graph-c1",
+      "type": "DECLARED_GRAPH",
+      "uri": "artifact://pair03/job-incremental-c1/declared.json",
+      "media_type": "application/json",
+      "producer_job_id": "job-incremental-c1",
+      "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "configuration_id": "cc-MODE0",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  },
+  "error": null
+}
