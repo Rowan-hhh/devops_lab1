@@ -83,7 +83,7 @@ BuildChecker 成功时，`output` 包含：
   },
   "summary": {
     "missing_count": 1,
-    "redundant_count": 0
+    "redundant_count": 1
   }
 }
 ```
@@ -167,7 +167,7 @@ BuildChecker 成功时，`output` 包含：
   "finding_changes": {
     "introduced": [],
     "resolved": ["finding-md-001"],
-    "unchanged": []
+    "unchanged": ["finding-rd-001"]
   },
   "updated_actual_graph": { /* ACTUAL_GRAPH ArtifactRef */ },
   "updated_declared_graph": { /* DECLARED_GRAPH ArtifactRef */ }

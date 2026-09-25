@@ -54,7 +54,7 @@
     "finding_changes": {
       "introduced": [],
       "resolved": ["finding-md-001"],
-      "unchanged": []
+      "unchanged": ["finding-rd-001"]
     },
     "updated_actual_graph": {
       "artifact_id": "actual-graph-c1",

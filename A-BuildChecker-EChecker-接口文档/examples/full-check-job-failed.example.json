@@ -17,15 +17,15 @@
     },
     "environment": {
       "dockerfile": {
-        "artifact_id": "dockerfile-002",
+        "artifact_id": "dockerfile-001",
         "type": "DOCKERFILE",
-        "uri": "artifact://pair03/job-draft-002/Dockerfile",
+        "uri": "artifact://pair03/job-draft-001/Dockerfile",
         "media_type": "text/plain",
-        "producer_job_id": "job-draft-002",
+        "producer_job_id": "job-draft-001",
         "commit": "0123456789abcdef0123456789abcdef01234567",
-        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
       },
-      "image_ref": "pair03/demo-project@sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      "image_ref": "pair03/demo-project@sha256:2222222222222222222222222222222222222222222222222222222222222222"
     },
     "build": {
       "configuration_id": "cc-MODE0",
@@ -35,10 +35,10 @@
   },
   "output": null,
   "error": {
-    "code": "ENV_3002",
-    "message": "Image build failed: exit code 1",
+    "code": "ANALYSIS_5001",
+    "message": "Analyzer failed",
     "details": {
-      "log_uri": "artifact://pair03/job-draft-002/build.log"
+      "log_uri": "artifact://pair03/job-full-002/analyzer.log"
     }
   }
 }

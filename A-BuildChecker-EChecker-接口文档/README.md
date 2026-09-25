@@ -47,10 +47,10 @@
 | `examples/incremental-check-create-request.example.json` | EChecker 创建请求（§8.1） |
 | `examples/incremental-check-job-succeeded.example.json` | EChecker 成功结果（§8.2） |
 | `examples/error-report.example.json` | ERROR_REPORT 文件结构（§9） |
-| `examples/invalid-request.example.json` | 无效请求样例（应被拒绝） |
-| `../ADR-001-async-job.md` | 架构决策记录 |
-| `../BACKLOG.md` | 任务 Backlog |
-| `../AI_USAGE.md` | AI 使用记录 |
+| `examples/invalid-request-wrong-job-type.example.json` | 无效请求样例（`job_type` 为 `ABC`，应被拒绝） |
+| `ADR-001-async-job.md` | 架构决策记录 |
+| `BACKLOG.md` | 任务 Backlog |
+| `AI_USAGE.md` | AI 使用记录 |
 
 ## 使用边界
 

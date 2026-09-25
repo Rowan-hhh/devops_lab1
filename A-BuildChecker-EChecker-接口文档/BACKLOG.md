@@ -12,7 +12,7 @@
 
 | ID | 任务 | 责任方 | 产物 | 验收条件 | 状态 |
 |----|------|--------|------|----------|------|
-| E2-01 | 统一任务模型（四类 Job） | A+B 共同 | `task.schema.json` | 四类对象可表达 | TODO |
+| E2-01 | 统一任务模型（四类 Job） | A+B 共同 | 仓库根目录 `ab-job-contract.schema.json` | 四类对象可表达；非法 `job_type` 被拒绝 | DONE |
 | E2-02 | BuildChecker 接口定义 | A 组 | FULL_CHECK 请求/响应样例 | 包含 environment + MD/RD 输出 | DONE |
 | E2-03 | EChecker 接口定义 | A 组 | INCREMENTAL_CHECK 请求/响应样例 | 基线图引用正确 | DONE |
 | E2-04 | ERROR_REPORT 格式定义 | A 组 | MISSING/RD 发现样例 | 包含 finding_id + evidence | DONE |
@@ -38,4 +38,8 @@
 
 ## 已完成
 
-（暂无）
+- E2-01 统一任务模型：`ab-job-contract.schema.json` 已提交。接口文档使用这个文件名，不再另建 `task.schema.json`。
+- E2-02 BuildChecker 请求与成功、失败样例。
+- E2-03 EChecker 请求与成功样例。
+- E2-04 错误报告同时包含一条 `MISSING` 和一条 `REDUNDANT`。
+- E2-08 异步 Job 的 ADR。
