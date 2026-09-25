@@ -41,7 +41,11 @@ BuildChecker 的 `input.environment` 使用 DRAFT 成功输出的 `EnvironmentRe
 
 - 格式：`artifact://{pair_id}/{job_id}/{file_name}`
 - 本地映射：`artifacts/{pair_id}/{job_id}/{file_name}`
-- 解析流程：提取 `pair_id` + `job_id` + `file_name` → 拼接本地路径 → 下载并验证 sha256
+- 映射流程：提取 `pair_id`、`job_id` 和 `file_name`，映射到共享仓库副本中的 `artifacts/{pair_id}/{job_id}/{file_name}` 相对路径。
+- 读取流程：从双方确认的共享位置读取文件字节，计算 SHA-256，并与 ArtifactRef 的 `sha256` 比较。
+- 元数据核对：检查 URI 中的 `job_id` 与 `producer_job_id` 相同，并核对适用的 `commit` 和 `configuration_id`。
+- 路径安全：`file_name` 不含路径分隔符，解析结果保持在 `artifacts/` 根目录内。
+- 当前状态：URI 和相对路径映射来自 v0.2；共享位置、读写权限、同步方式和保留期限待配对双方确认。
 
 ## 2. MD/RD 报告：BuildChecker 输出给 MDFixer
 
@@ -194,6 +198,8 @@ BuildChecker 成功时，`output` 包含：
 | 409 | `VERSION_2001` | 报告 commit 与源码 commit 不一致 |
 
 ## 5. Artifact 传递规则（§4.1）
+
+A 组的 URI 映射、读取和完整性核验方案见 [`../ADR-002-artifact-storage-and-access.md`](../ADR-002-artifact-storage-and-access.md)。该方案仍需配对 B 组确认实际共享位置和权限。
 
 | 规则 | 说明 |
 |------|------|

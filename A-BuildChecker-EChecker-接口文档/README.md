@@ -52,6 +52,7 @@
 | `examples/invalid-request-wrong-job-type.example.json` | 无效请求样例（`job_type` 为 `ABC`，应被拒绝） |
 | `examples/README.md` | 样例来源、占位值和校验说明 |
 | `ADR-001-async-job.md` | 异步 Job 架构决策记录 |
+| `ADR-002-artifact-storage-and-access.md` | Artifact URI、共享路径和读取核验方案 |
 | `BACKLOG.md` | 任务 Backlog |
 | `AI_USAGE.md` | AI 使用记录 |
 
