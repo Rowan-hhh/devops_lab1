@@ -2,7 +2,7 @@
 
 本材料是 `A-B_DRAFT环境交接包` 的对等文档，定义 A 组作为环境消费者和检测服务提供者与 B 组之间的接口契约。
 
-本文档严格依据《接口定义文档 v0.2》，所有 JSON 样例使用 `pair03` 作为 pair_id，与 B 组交接包保持一致。
+本文档严格依据《接口定义文档 v0.2》。当前 JSON 结构样例暂用 `pair03`；该值与仓库内 B 组样例的占位值一致，尚未确认为真实配对编号。双方确认后再更新实例值。
 
 ## 角色与职责
 
@@ -42,13 +42,16 @@
 | `docs/environment-handoff.md` | A 组消费 DRAFT 环境的契约规则 |
 | `docs/instance-values.md` | 双方约定的真实实例值 |
 | `examples/full-check-create-request.example.json` | BuildChecker 创建请求（§7.1） |
+| `examples/full-check-create-receipt.example.json` | BuildChecker 202 创建回执（`CreateReceipt`） |
 | `examples/full-check-job-succeeded.example.json` | BuildChecker 成功结果（§7.2） |
 | `examples/full-check-job-failed.example.json` | BuildChecker 失败结果 |
 | `examples/incremental-check-create-request.example.json` | EChecker 创建请求（§8.1） |
+| `examples/incremental-check-create-receipt.example.json` | EChecker 202 创建回执（`CreateReceipt`） |
 | `examples/incremental-check-job-succeeded.example.json` | EChecker 成功结果（§8.2） |
 | `examples/error-report.example.json` | ERROR_REPORT 文件结构（§9） |
 | `examples/invalid-request-wrong-job-type.example.json` | 无效请求样例（`job_type` 为 `ABC`，应被拒绝） |
-| `ADR-001-async-job.md` | 架构决策记录 |
+| `examples/README.md` | 样例来源、占位值和校验说明 |
+| `ADR-001-async-job.md` | 异步 Job 架构决策记录 |
 | `BACKLOG.md` | 任务 Backlog |
 | `AI_USAGE.md` | AI 使用记录 |
 
@@ -56,4 +59,5 @@
 
 - 本文档不修改 B 组定义的接口字段、枚举值、状态流转、错误码或端点
 - 如与《接口定义文档 v0.2》存在不一致，以原接口文档为准
-- 所有 JSON 样例使用 `pair03` 作为示例 pair_id
+- 所有 JSON 样例中的 `pair03`、commit、时间、命令和摘要均为结构占位值，不代表已确认的真实实例或运行结果
+- ERROR_REPORT 样例使用 `INSTRUCTOR_ORACLE` 标记固定预期发现，不代表 BuildChecker 已经执行

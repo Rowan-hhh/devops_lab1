@@ -25,7 +25,7 @@
         "observed_file": "config.h",
         "declaration_file": "Makefile"
       },
-      "detector": "BUILD_CHECKER"
+      "detector": "INSTRUCTOR_ORACLE"
     },
     {
       "finding_id": "finding-rd-001",
@@ -44,7 +44,7 @@
         "observed_file": "main.c",
         "declaration_file": "Makefile"
       },
-      "detector": "BUILD_CHECKER"
+      "detector": "INSTRUCTOR_ORACLE"
     }
   ]
 }
