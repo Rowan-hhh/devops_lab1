@@ -1,0 +1,18 @@
+{
+  "example_notice": "STRUCTURE-ONLY PLACEHOLDER; not a real verification request or execution record",
+  "schema_version": "2.0",
+  "base_commit": "0123456789abcdef0123456789abcdef01234567",
+  "candidate_commit": "abcdef0123456789abcdef0123456789abcdef01",
+  "configuration_id": "cc-MODE0",
+  "finding_ids": [
+    "finding-md-001"
+  ],
+  "commands": {
+    "clean": "make clean",
+    "build": "make",
+    "test": "make test",
+    "recheck": "python tools/run_recheck.py --output evidence/recheck-error-report.json"
+  },
+  "recheck_report": "evidence/recheck-error-report.json",
+  "timeout_seconds": 600
+}
