@@ -89,3 +89,42 @@
 - `A-BuildChecker-EChecker-接口文档/docs/instance-values.md`
 - `A-BuildChecker-EChecker-接口文档/examples/`
 - `A-BuildChecker-EChecker-接口文档/E2_COMPLETION.md`
+
+### 2026-09-26 契约 Schema 与 A 组检测样例对齐
+
+**记录人**：pengyu-kong
+
+**工具/模型**：Cursor（Grok 4.7）
+
+**提示摘要**：阅读 E2 课件和当前仓库，确认 A 组在没有真实项目时要交什么；按《接口定义文档 v0.2》补上机器可读 Schema；确认本人是 A 组之后，只修正 A 组检测样例、交接说明、Backlog 和 README，不改 B 组已经推送的目录。
+
+**AI 建议**：
+- 在仓库根目录新增 `ab-job-contract.schema.json`，按 v0.2 第 14 节定义 `$defs`。课件里的文件名 `task.schema.json` 不另建一份。
+- 校验时选用具体 `$defs`，不用 Schema 文件根。未知字段保持忽略，非法枚举拒绝。跨字段相等（例如 `baseline.commit` 与 `base_commit`）留在文字契约里，不写进 Schema。
+- 全量检测成功 Job 的 `redundant_count` 改为 1，与错误报告中的 1 条 `REDUNDANT` 一致。
+- 增量检测成功结果把 `finding-rd-001` 写入 `finding_changes.unchanged`，`finding-md-001` 仍为已消除。
+- 全量检测失败 Job 改为引用已成功的 DRAFT 环境 `job-draft-001`，错误码由 `ENV_3002` 改为 `ANALYSIS_5001`，`output` 保持 `null`。
+- Backlog 中统一任务模型标为完成；README 样例索引改为仓库里的实际文件名。
+- 实例值继续写「待确认」，不把占位哈希改成看起来像真实成功的记录。
+
+**人工决策**：
+- ✅ 采纳：Schema 使用 `ab-job-contract.schema.json`，并覆盖四类任务的请求、回执、Job、成功输出和错误报告。
+- ✅ 采纳：按上面三条修正 A 组样例计数、未变化发现和失败错误码。
+- ✅ 采纳：`pair_id`、仓库、commit、命令和摘要继续作为占位值。
+- ⛔ 拒绝：不把 A 组检测样例放进 `A-B_DRAFT环境交接包`，也不修改 B 组已推送的材料。
+- ⛔ 拒绝：E2 不部署 API，不实现 BuildChecker 或 EChecker，不编造试跑结果。
+
+**验证方法**：
+- 使用 `jsonschema` 4.26.0 的 Draft 2020-12 校验器检查根 Schema。校验器装在临时目录，没有加入仓库依赖。
+- A 组有效 JSON 样例通过对应 `$defs`；`job_type` 为 `ABC` 的请求，以及去掉 `baseline` 的增量请求，按预期被拒绝。
+- 全量检测成功 Job、错误报告和产物引用的计数、commit、`configuration_id` 已静态核对。
+- 相关提交 `957f476`、`237f392` 已在 `origin/main`。
+
+**关联文件**：
+- `ab-job-contract.schema.json`（`957f476`）
+- `A-BuildChecker-EChecker-接口文档/examples/full-check-job-succeeded.example.json`
+- `A-BuildChecker-EChecker-接口文档/examples/full-check-job-failed.example.json`
+- `A-BuildChecker-EChecker-接口文档/examples/incremental-check-job-succeeded.example.json`
+- `A-BuildChecker-EChecker-接口文档/docs/environment-handoff.md`
+- `A-BuildChecker-EChecker-接口文档/BACKLOG.md`
+- `A-BuildChecker-EChecker-接口文档/README.md`
