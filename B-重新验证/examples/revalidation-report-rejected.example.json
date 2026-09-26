@@ -1,7 +1,7 @@
 {
-  "example_notice": "STRUCTURE-ONLY PLACEHOLDER; not real rebuild, test, or recheck evidence",
+  "example_notice": "STRUCTURE-ONLY PLACEHOLDER; not real execution evidence",
   "schema_version": "2.0",
-  "verification_status": "ACCEPTED",
+  "verification_status": "REJECTED",
   "base_commit": "0123456789abcdef0123456789abcdef01234567",
   "candidate_commit": "abcdef0123456789abcdef0123456789abcdef01",
   "configuration_id": "cc-MODE0",
@@ -13,28 +13,34 @@
       "success": true,
       "exit_code": 0,
       "duration_ms": 120,
-      "log_path": "b4-evidence/clean.log"
+      "log_path": "b-evidence/clean.log"
     },
     "build": {
       "success": true,
       "exit_code": 0,
       "duration_ms": 2400,
-      "log_path": "b4-evidence/build.log"
+      "log_path": "b-evidence/build.log"
     },
     "test": {
       "success": true,
       "exit_code": 0,
       "duration_ms": 1800,
-      "log_path": "b4-evidence/test.log"
+      "log_path": "b-evidence/test.log"
     },
     "recheck": {
       "success": true,
       "exit_code": 0,
       "duration_ms": 3100,
-      "log_path": "b4-evidence/recheck.log"
+      "log_path": "b-evidence/recheck.log"
     }
   },
-  "remaining_selected_findings": [],
-  "error": null,
+  "remaining_selected_findings": [
+    "finding-md-001"
+  ],
+  "error": {
+    "code": "REPAIR_3001",
+    "stage": "recheck",
+    "message": "selected finding(s) remain after recheck"
+  },
   "generated_at": "2026-09-26T00:00:00Z"
 }

@@ -1,4 +1,4 @@
-"""Run the B4 rebuild, test, and recheck verification flow."""
+"""Run the B rebuild, test, and recheck verification flow."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ VALIDATION_FAILURE = "VALIDATION_1001"
 
 
 class RequestValidationError(ValueError):
-    """Raised when a B4 verification request cannot be executed safely."""
+    """Raised when a B verification request cannot be executed safely."""
 
     def __init__(self, message: str, field: str | None = None):
         self.code = VALIDATION_FAILURE
@@ -52,7 +52,7 @@ def _safe_relative_path(value: object, field: str) -> str:
 
 
 def validate_request(request: Mapping[str, object]) -> None:
-    """Validate the B4 request before any command is started."""
+    """Validate the B request before any command is started."""
 
     if not isinstance(request, Mapping):
         raise RequestValidationError("request must be a JSON object")
@@ -231,7 +231,7 @@ def _load_recheck_report(
 def run_verification(
     request: Mapping[str, object], workspace: Path, output_path: Path
 ) -> dict[str, object]:
-    """Run the configured B4 stages and write an auditable JSON report."""
+    """Run the configured B stages and write an auditable JSON report."""
 
     validate_request(request)
     workspace = Path(workspace).resolve()
@@ -242,7 +242,7 @@ def run_verification(
         raise ValueError(f"workspace does not exist: {workspace}")
 
     report = _base_report(request)
-    evidence_dir = workspace / "b4-evidence"
+    evidence_dir = workspace / "b-evidence"
     evidence_dir.mkdir(parents=True, exist_ok=True)
     commands = request["commands"]
     timeout_seconds = float(request["timeout_seconds"])

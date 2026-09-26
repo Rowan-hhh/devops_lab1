@@ -1,18 +1,18 @@
-# B4 Revalidation Package Implementation Plan
+# B Revalidation Package Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a documented, standard-library-only B4 revalidation package that runs rebuild/test/recheck against a candidate workspace and emits auditable accept/reject evidence without claiming unprovided real execution results.
+**Goal:** Add a documented, standard-library-only B revalidation package that runs rebuild/test/recheck against a candidate workspace and emits auditable accept/reject evidence without claiming unprovided real execution results.
 
 **Architecture:** A small Python module owns request validation, ordered stage execution, recheck-report inspection, and JSON report generation. The CLI is a thin adapter over that module; documentation and examples define the handoff boundary with the existing v0.2 contract and B2 receipt. Tests use temporary workspaces and Python child scripts to exercise the runner without introducing product dependencies.
 
 **Tech Stack:** Python 3.10+ standard library (`argparse`, `dataclasses`, `json`, `pathlib`, `subprocess`, `tempfile`, `unittest`), Markdown, JSON.
 
-**Spec:** `docs/superpowers/specs/2026-09-26-b4-revalidation-design.md`
+**Spec:** `docs/superpowers/specs/2026-09-26-b-revalidation-design.md`
 
 ## Global Constraints
 
-- Keep the root `ab-job-contract.schema.json` and `接口定义文档_v0.2.md` unchanged; B4 supplements the contract and does not redefine it.
+- Keep the root `ab-job-contract.schema.json` and `接口定义文档_v0.2.md` unchanged; B supplements the contract and does not redefine it.
 - Use `schema_version: "2.0"`, full 40-character lowercase hexadecimal `base_commit` and `candidate_commit`, non-empty `finding_ids`, and a non-empty `configuration_id`.
 - Execute stages in order: optional `clean`, required `build`, required `test`, required `recheck`; stop after the first failed or timed-out stage.
 - A candidate is `ACCEPTED` only when build, test, and recheck exit with code 0 and no selected finding remains.
@@ -34,8 +34,8 @@
 ### Task 1: Build the revalidation engine with red-green tests
 
 **Files:**
-- Create: `B4-重新验证/tests/test_b4_revalidate.py`
-- Create: `B4-重新验证/tools/b4_revalidate.py`
+- Create: `B-重新验证/tests/test_revalidate.py`
+- Create: `B-重新验证/tools/revalidate.py`
 
 **Interfaces:**
 - Consumes: A Python mapping with `schema_version`, `base_commit`, `candidate_commit`, `configuration_id`, `finding_ids`, `commands`, `recheck_report`, and `timeout_seconds`; a candidate workspace `pathlib.Path`.
@@ -48,13 +48,13 @@
 
 - [ ] **Step 2: Run the focused tests to verify they fail for the missing engine**
 
-  Run: `python -m unittest discover -s B4-重新验证/tests -p "test_*.py" -v`
+  Run: `python -m unittest discover -s B-重新验证/tests -p "test_*.py" -v`
 
-  Expected: FAIL because `B4-重新验证/tools/b4_revalidate.py` does not yet provide the requested functions.
+  Expected: FAIL because `B-重新验证/tools/revalidate.py` does not yet provide the requested functions.
 
 - [ ] **Step 3: Implement request validation and ordered stage execution**
 
-  In `B4-重新验证/tools/b4_revalidate.py`, implement a `RequestValidationError` carrying `code`, `message`, and optional `field`; validate exact version, commit format, IDs, command presence, safe relative recheck path, and positive timeout. Implement a stage runner using `subprocess.run(..., shell=True, cwd=workspace, capture_output=True, text=True, timeout=...)`; write stdout/stderr to `b4-evidence/<stage>.log`, measure duration, mark timeouts, and return relative log paths. Stop at the first failed stage and mark later stages skipped.
+  In `B-重新验证/tools/revalidate.py`, implement a `RequestValidationError` carrying `code`, `message`, and optional `field`; validate exact version, commit format, IDs, command presence, safe relative recheck path, and positive timeout. Implement a stage runner using `subprocess.run(..., shell=True, cwd=workspace, capture_output=True, text=True, timeout=...)`; write stdout/stderr to `b-evidence/<stage>.log`, measure duration, mark timeouts, and return relative log paths. Stop at the first failed stage and mark later stages skipped.
 
 - [ ] **Step 4: Implement recheck inspection and report generation**
 
@@ -62,22 +62,22 @@
 
 - [ ] **Step 5: Run the focused tests to verify the engine passes the initial contract**
 
-  Run: `python -m unittest discover -s B4-重新验证/tests -p "test_*.py" -v`
+  Run: `python -m unittest discover -s B-重新验证/tests -p "test_*.py" -v`
 
   Expected: PASS for validation and success-path tests.
 
 - [ ] **Step 6: Commit the engine baseline**
 
   ```powershell
-  git add B4-重新验证/tests/test_b4_revalidate.py B4-重新验证/tools/b4_revalidate.py
-  git commit -m "feat: add B4 revalidation engine"
+  git add B-重新验证/tests/test_revalidate.py B-重新验证/tools/revalidate.py
+  git commit -m "feat: add B revalidation engine"
   ```
 
 ### Task 2: Cover failure modes and add the CLI contract
 
 **Files:**
-- Modify: `B4-重新验证/tests/test_b4_revalidate.py`
-- Modify: `B4-重新验证/tools/b4_revalidate.py`
+- Modify: `B-重新验证/tests/test_revalidate.py`
+- Modify: `B-重新验证/tools/revalidate.py`
 
 **Interfaces:**
 - Consumes: Task 1 `run_verification` and report shape.
@@ -89,7 +89,7 @@
 
 - [ ] **Step 2: Run the failure-mode tests to verify they fail before the new behavior exists**
 
-  Run: `python -m unittest discover -s B4-重新验证/tests -p "test_*.py" -v`
+  Run: `python -m unittest discover -s B-重新验证/tests -p "test_*.py" -v`
 
   Expected: FAIL in the newly added failure-mode assertions.
 
@@ -99,35 +99,35 @@
 
 - [ ] **Step 4: Run the complete Python test suite**
 
-  Run: `python -m unittest discover -s B4-重新验证/tests -p "test_*.py" -v`
+  Run: `python -m unittest discover -s B-重新验证/tests -p "test_*.py" -v`
 
   Expected: All tests pass, including the five review-focus failure classes.
 
 - [ ] **Step 5: Commit the CLI and failure-mode coverage**
 
   ```powershell
-  git add B4-重新验证/tests/test_b4_revalidate.py B4-重新验证/tools/b4_revalidate.py
-  git commit -m "test: cover B4 revalidation failure modes"
+  git add B-重新验证/tests/test_revalidate.py B-重新验证/tools/revalidate.py
+  git commit -m "test: cover B revalidation failure modes"
   ```
 
-### Task 3: Add the B4 handoff documentation and placeholder evidence
+### Task 3: Add the B handoff documentation and placeholder evidence
 
 **Files:**
-- Create: `B4-重新验证/README.md`
-- Create: `B4-重新验证/docs/revalidation.md`
-- Create: `B4-重新验证/docs/instance-values.md`
-- Create: `B4-重新验证/examples/revalidation-request.example.json`
-- Create: `B4-重新验证/examples/revalidation-report-succeeded.example.json`
-- Create: `B4-重新验证/examples/revalidation-report-rejected.example.json`
-- Create: `B4-重新验证/AI_USAGE.md`
+- Create: `B-重新验证/README.md`
+- Create: `B-重新验证/docs/revalidation.md`
+- Create: `B-重新验证/docs/instance-values.md`
+- Create: `B-重新验证/examples/revalidation-request.example.json`
+- Create: `B-重新验证/examples/revalidation-report-succeeded.example.json`
+- Create: `B-重新验证/examples/revalidation-report-rejected.example.json`
+- Create: `B-重新验证/AI_USAGE.md`
 
 **Interfaces:**
 - Consumes: Task 1/2 CLI flags and report fields; existing `B2-MDFixer-MD交接/docs/md-reception.md`, `接口定义文档_v0.2.md`, and `A-BuildChecker-EChecker-接口文档/ADR-002-artifact-storage-and-access.md`.
-- Produces: A copyable B4 package explaining inputs, phase order, acceptance/rejection, Artifact URI mapping, evidence ownership, real-value checklist, and placeholder examples.
+- Produces: A copyable B package explaining inputs, phase order, acceptance/rejection, Artifact URI mapping, evidence ownership, real-value checklist, and placeholder examples.
 
 - [ ] **Step 1: Write the README and detailed revalidation procedure**
 
-  Document B4’s role, the boundary after B2 accepts a report, the distinction between applying a patch and verifying an already-applied candidate, the exact CLI invocation, phase stop conditions, `REPAIR_3001` behavior, final B4+B2 acceptance, and the fact that no real run is claimed in the examples.
+  Document B’s role, the boundary after B2 accepts a report, the distinction between applying a patch and verifying an already-applied candidate, the exact CLI invocation, phase stop conditions, `REPAIR_3001` behavior, final B+B2 acceptance, and the fact that no real run is claimed in the examples.
 
 - [ ] **Step 2: Write the instance-values checklist and placeholder JSON samples**
 
@@ -135,27 +135,27 @@
 
 - [ ] **Step 3: Record AI usage and cross-document references**
 
-  Add `AI_USAGE.md` with the prompt summary, Codex’s proposed B4 boundary, human decisions, files affected, and validation commands. Link the root contract, B2 receipt, A group artifact rules, and the B4 design/plan without copying or changing their definitions.
+  Add `AI_USAGE.md` with the prompt summary, Codex’s proposed B boundary, human decisions, files affected, and validation commands. Link the root contract, B2 receipt, A group artifact rules, and the B design/plan without copying or changing their definitions.
 
 - [ ] **Step 4: Run documentation and JSON consistency checks**
 
   Run:
 
   ```powershell
-  python -m json.tool B4-重新验证/examples/revalidation-request.example.json > $null
-  python -m json.tool B4-重新验证/examples/revalidation-report-succeeded.example.json > $null
-  python -m json.tool B4-重新验证/examples/revalidation-report-rejected.example.json > $null
-  rg -n "真实|real|placeholder|占位|待确认|REPAIR_3001|ACCEPTED|REJECTED" B4-重新验证
+  python -m json.tool B-重新验证/examples/revalidation-request.example.json > $null
+  python -m json.tool B-重新验证/examples/revalidation-report-succeeded.example.json > $null
+  python -m json.tool B-重新验证/examples/revalidation-report-rejected.example.json > $null
+  rg -n "真实|real|placeholder|占位|待确认|REPAIR_3001|ACCEPTED|REJECTED" B-重新验证
   git diff --check
   ```
 
   Expected: all JSON commands exit 0; documentation explicitly marks examples as placeholders, contains both decision states and the failure code, and `git diff --check` reports no whitespace errors.
 
-- [ ] **Step 5: Commit the B4 documentation package**
+- [ ] **Step 5: Commit the B documentation package**
 
   ```powershell
-  git add B4-重新验证/README.md B4-重新验证/docs B4-重新验证/examples B4-重新验证/AI_USAGE.md
-  git commit -m "docs: add B4 revalidation handoff package"
+  git add B-重新验证/README.md B-重新验证/docs B-重新验证/examples B-重新验证/AI_USAGE.md
+  git commit -m "docs: add B revalidation handoff package"
   ```
 
 ### Task 4: Perform whole-branch verification and handoff
@@ -164,12 +164,12 @@
 - Modify only if verification finds a defect in Task 1–3 files.
 
 **Interfaces:**
-- Consumes: The complete B4 package and the approved design.
+- Consumes: The complete B package and the approved design.
 - Produces: A clean, test-backed branch ready to push, with no claim of real rebuild/test/recheck execution because no real project inputs were supplied.
 
 - [ ] **Step 1: Run the complete automated test suite**
 
-  Run: `python -m unittest discover -s B4-重新验证/tests -p "test_*.py" -v`
+  Run: `python -m unittest discover -s B-重新验证/tests -p "test_*.py" -v`
 
   Expected: all tests pass.
 
@@ -181,7 +181,7 @@
 
   Run `git diff --check`, parse all three example JSON files with `python -m json.tool`, and inspect `git status --short --branch`, `git diff --stat main...HEAD`, and `git log --oneline main..HEAD`.
 
-  Expected: no whitespace errors, all samples parse, only the intended B4 package and supporting commits are present, and no unrelated user changes are modified.
+  Expected: no whitespace errors, all samples parse, only the intended B package and supporting commits are present, and no unrelated user changes are modified.
 
 - [ ] **Step 4: Commit any verification-only fix with its regression test**
 
@@ -190,7 +190,7 @@
 - [ ] **Step 5: Push the completed branch to the provided GitHub repository**
 
   ```powershell
-  git push -u origin codex/b4-revalidation
+  git push -u origin codex/b-revalidation
   ```
 
   Expected: the remote accepts the branch. Report the branch name, final commit SHA, verification commands and the limitation that no real candidate rebuild/test/recheck was available in this E2 documentation repository.

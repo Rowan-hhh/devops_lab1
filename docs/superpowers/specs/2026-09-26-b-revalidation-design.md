@@ -1,8 +1,8 @@
-# B4 重新验证交付设计
+# B 重新验证交付设计
 
 ## 背景与目标
 
-B4 负责在 B2/MDFixer 产生候选 Patch 后，按同一构建环境和配置重新验证候选修改。当前仓库已经包含 E2 v0.2 接口契约、A 组检测材料和 B2 的 MD 接收规范，但没有可运行的源码项目、真实 Patch、镜像或日志。因此本次交付提供可审计的 B4 规范、样例、验证记录模板和一个本地验证工具，不伪造真实 rebuild、test 或 recheck 结果。
+B 负责在 B2/MDFixer 产生候选 Patch 后，按同一构建环境和配置重新验证候选修改。当前仓库已经包含 E2 v0.2 接口契约、A 组检测材料和 B2 的 MD 接收规范，但没有可运行的源码项目、真实 Patch、镜像或日志。因此本次交付提供可审计的 B 规范、样例、验证记录模板和一个本地验证工具，不伪造真实 rebuild、test 或 recheck 结果。
 
 成功判据与现有接口契约保持一致：候选修改必须完成构建和测试，并且重检报告中不再包含本次选择的 `MISSING` finding。任一阶段失败时，验证结果为拒绝，使用契约规定的 `REPAIR_3001`，且不得把失败候选标为成功。
 
@@ -13,7 +13,7 @@ B4 负责在 B2/MDFixer 产生候选 Patch 后，按同一构建环境和配置�
 - 读取 B2 已接受的修复上下文：修复前 `base_commit`、候选提交、选中的 `finding_ids`、`configuration_id`、构建/测试/重检命令和重检报告路径。
 - 按顺序执行 clean（若提供）、build、test、recheck，并保存每个阶段的退出码、耗时、日志相对路径和失败原因。
 - 校验重检报告为 JSON，确认选中的 finding ID 已全部消失。
-- 生成 `ACCEPTED` 或 `REJECTED` 的 B4 验证记录；记录可供 B4+B2 最终接受或拒绝 Patch。
+- 生成 `ACCEPTED` 或 `REJECTED` 的 B 验证记录；记录可供 B+B2 最终接受或拒绝 Patch。
 - 提供成功、失败和待填写的文档样例，并说明真实 Artifact 的 `artifact://` 映射、SHA-256、commit 和配置核验。
 
 非目标：
@@ -25,16 +25,16 @@ B4 负责在 B2/MDFixer 产生候选 Patch 后，按同一构建环境和配置�
 
 ## 交付结构
 
-新增 `B4-重新验证/`：
+新增 `B-重新验证/`：
 
-- `README.md`：B4 角色边界、运行入口、接受/拒绝规则和契约链接。
+- `README.md`：B 角色边界、运行入口、接受/拒绝规则和契约链接。
 - `docs/revalidation.md`：逐阶段验证规范、输入输出字段、证据保存和人工复核要求。
 - `docs/instance-values.md`：真实联调前需要双方填写的仓库、commit、配置、命令和 Artifact 值；默认全部标记为待确认。
 - `examples/revalidation-request.example.json`：只描述结构的请求样例。
 - `examples/revalidation-report-succeeded.example.json`：结构成功样例，明确为占位证据。
 - `examples/revalidation-report-rejected.example.json`：重检仍含选中 finding 时的失败样例。
-- `tools/b4_revalidate.py`：标准库实现的本地验证器。
-- `tests/test_b4_revalidate.py`：`unittest` 测试，覆盖成功路径、构建失败、测试失败、重检残留 finding、非法报告和命令超时。
+- `tools/revalidate.py`：标准库实现的本地验证器。
+- `tests/test_revalidate.py`：`unittest` 测试，覆盖成功路径、构建失败、测试失败、重检残留 finding、非法报告和命令超时。
 - `AI_USAGE.md`：记录本次材料中 AI 建议、人工取舍和验证命令。
 
 ## 工具接口与数据流
@@ -42,8 +42,8 @@ B4 负责在 B2/MDFixer 产生候选 Patch 后，按同一构建环境和配置�
 命令入口：
 
 ```text
-python B4-重新验证/tools/b4_revalidate.py \
-  --request B4-重新验证/examples/revalidation-request.json \
+python B-重新验证/tools/revalidate.py \
+  --request B-重新验证/examples/revalidation-request.json \
   --workspace <candidate-workspace> \
   --output <verification-report.json>
 ```
@@ -94,7 +94,7 @@ clean → build → test → recheck report
 
 工具生成的日志和报告必须位于候选 workspace 或其指定的证据目录中，并使用仓库相对路径。跨组交接时，再按主契约将文件映射为 `artifact://{pair_id}/{job_id}/{file_name}`，由接收方核对原始字节 SHA-256、适用 commit 和 `configuration_id`。
 
-成功的 B4 记录只能证明当前候选通过了 rebuild、test、recheck。最终是否接受 Patch 仍由 B4+B2 按记录共同确认；工具不会自动推送、合并或创建新 commit。
+成功的 B 记录只能证明当前候选通过了 rebuild、test、recheck。最终是否接受 Patch 仍由 B+B2 按记录共同确认；工具不会自动推送、合并或创建新 commit。
 
 ## 错误处理
 
@@ -119,7 +119,7 @@ clean → build → test → recheck report
 
 ## 兼容性与风险
 
-- 工具只消费 B4 自己定义的验证请求，不改变仓库根目录 Schema；契约字段仍以 `接口定义文档_v0.2.md` 和 `ab-job-contract.schema.json` 为准。
+- 工具只消费 B 自己定义的验证请求，不改变仓库根目录 Schema；契约字段仍以 `接口定义文档_v0.2.md` 和 `ab-job-contract.schema.json` 为准。
 - 命令字符串需依赖调用方环境；真实联调前必须在 `instance-values.md` 记录平台、工作目录和命令，并由双方确认。
 - Windows 与 POSIX shell 的命令语法可能不同；样例只表达结构，真实命令必须按执行平台填写。
 - 工具不具备容器隔离能力，不能代替安全的构建沙箱；生产或公共环境应在受控 runner 中执行。
