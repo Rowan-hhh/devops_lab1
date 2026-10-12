@@ -1,7 +1,6 @@
 # E4 B组最终验收与跨组互检记录
 
 - 统筹与验收人：B4（241880179）
-- 整理日期：2026-10-12（Asia/Shanghai）
 - B组仓库：`https://github.com/Rowan-hhh/devops-e4-draft.git`
 - 验收 SHA：`c7ec20de19d2554f2273d2d76f3739541acedf0c`
 - 统一服务器：`47.97.166.140`
